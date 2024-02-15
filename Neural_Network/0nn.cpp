@@ -205,7 +205,7 @@ void Net::feedForward(const vector<double> &inputValues){
 }
 void Net::getResults(vector<double> &resultValues){
     resultValues.clear();
-    for(int n = 0; n < m_layers.back().size() - 1; ++n){
+    for(int n = 0; n < m_layers.back().size() - 1; n++){
         resultValues.push_back(m_layers.back()[n].getOutputVal());
     }
 }
