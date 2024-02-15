@@ -31,8 +31,8 @@ int main(){
 
     for(int a = 0; a < outputs.size(); a++){
         for(int b = 0; b < outputs[a].size(); b++){
-            cout<<endl<<"out:"<<a;
             cout<<"in:"<<outputs[a][b][0]<<" "<<outputs[a][b][1]<<" "<<outputs[a][b][2]<<endl;
+            cout<<"out:"<<a<<endl;
         }
     }
 }

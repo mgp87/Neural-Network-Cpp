@@ -3,6 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include <cassert>
+#include <cmath>
 
 using namespace std;
 
@@ -117,13 +118,13 @@ GetData::GetData(const string filename){
     dataFile.open(filename.c_str());
 }
 int GetData::getNextInputs(vector<double> &inputValues){
-    inputValues.clear();
     string line;
     getline(dataFile, line);
     stringstream ss(line);
     string label;
     ss >> label;
     if(label.compare("in:") == 0){
+        inputValues.clear();
         double oneValue;
         while(ss >> oneValue){
             inputValues.push_back(oneValue);
@@ -133,13 +134,13 @@ int GetData::getNextInputs(vector<double> &inputValues){
 }
 
 int GetData::getTargetOutputs(vector<double> &targetOutputValues){
-    targetOutputValues.clear();
     string line;
     getline(dataFile, line);
     stringstream ss(line);
     string label;
     ss >> label;
     if(label.compare("out:") == 0){
+        targetOutputValues.clear();
         double oneValue;
         while(ss >> oneValue){
             targetOutputValues.push_back(oneValue);
@@ -258,7 +259,7 @@ int main(int argc, char** argv) {
         if(getData.getNextInputs(inputValues) != topology[0]){
             break;
         }
-        assert(targetValues.size() == topology.back());
+        assert(inputValues.size() == topology[0]);
         showVectorValues("Inputs:", inputValues);
         network.feedForward(inputValues);
         network.getResults(resultValues);
@@ -271,4 +272,16 @@ int main(int argc, char** argv) {
     }
     network.printWeights();
     cout<<endl<<"The End!"<<endl;
+
+    cout<<"Testing"<<endl;
+    inputValues.clear();
+    inputValues.push_back(100);
+    inputValues.push_back(120);
+    inputValues.push_back(140);
+    int targetValue = 0.63*100 + 0.21*120 + 0.14*140;
+    showVectorValues("Inputs:", inputValues);
+    network.feedForward(inputValues);
+    network.getResults(resultValues);
+    showVectorValues("Outputs:", resultValues);
+    cout<<"Target: "<<targetValue<<" Result is "<<resultValues[0]<<endl;
 }
